@@ -18,11 +18,14 @@ import {
  */
 export const mysqlTable = mysqlTableCreator((name) => `gpts-browser_${name}`);
 
-export const posts = mysqlTable(
-  "post",
+export const gpts = mysqlTable(
+  "gpt",
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
+    url: varchar("url", { length: 256 }),
     name: varchar("name", { length: 256 }),
+    description: varchar("description", { length: 256 }),
+    creator: varchar("creator", { length: 256 }),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
