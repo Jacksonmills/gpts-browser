@@ -22,10 +22,10 @@ export const gpts = mysqlTable(
   "gpt",
   {
     id: bigint("id", { mode: "number" }).primaryKey().autoincrement(),
-    url: varchar("url", { length: 256 }),
-    name: varchar("name", { length: 256 }),
-    description: varchar("description", { length: 256 }),
-    creator: varchar("creator", { length: 256 }),
+    url: varchar("url", { length: 256 }).notNull(),
+    name: varchar("name", { length: 256 }).notNull(),
+    description: varchar("description", { length: 256 }).notNull(),
+    creator: varchar("creator", { length: 256 }).notNull(),
     createdAt: timestamp("created_at")
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),

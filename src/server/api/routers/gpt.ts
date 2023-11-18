@@ -20,6 +20,10 @@ export const gptRouter = createTRPCRouter({
       });
     }),
 
+  getOne: publicProcedure.query(({ ctx }) => {
+    return ctx.db.query.gpts.findFirst({});
+  }),
+
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.query.gpts.findMany();
   }),

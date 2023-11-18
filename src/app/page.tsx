@@ -1,43 +1,31 @@
-import { CreateGPT } from "@/app/_components/CreateGPT";
 import { api } from "@/trpc/server";
-import { ThemeToggle } from "./_components/ThemeToggle";
-import { Button } from "./_components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "./_components/ui/card";
+import { GPT } from "./_components/GPT";
+import { Input } from "./_components/ui/input";
 
-export default function Home() {
-  // const allGPTs = await api.gpt.getAll.query();
-  // console.log(allGPTs);
+export default async function Home() {
+  const allGPTs = await api.gpt.getAll.query();
 
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16 ">
-      <CrudShowcase />
-    </div>
-  );
-}
+      <div className="w-full flex flex-col gap-2">
+        <h1 className="text-6xl font-bold self-center">
+          GPTs Browser
+        </h1>
 
-async function CrudShowcase() {
-  const allGPTs = await api.gpt.getAll.query();
-
-  if (!allGPTs) return <p>Loading...</p>;
-
-  return (
-    <div className="w-full flex flex-col gap-2">
-      {allGPTs.map((gpt) => (
-        <div key={gpt.id}>
-          <Card>
-            <CardHeader>
-              <h2>{gpt.name}</h2>
-            </CardHeader>
-            <CardContent>
-              <p>{gpt.description}</p>
-              <p>By: {gpt.creator}</p>
-            </CardContent>
-            <CardFooter>
-              <p>{gpt.url}</p>
-            </CardFooter>
-          </Card>
+        <Input
+          className="w-full"
+          placeholder="Search GPTs..."
+        />
+        <div className="grid md:grid-cols-2 gap-4">
+          {allGPTs.length > 0 ? (
+            allGPTs.map((gpt) => (
+              <GPT key={gpt.id} gpt={gpt} />
+            ))
+          ) : (
+            <p>No GPTs found.</p>
+          )}
         </div>
-      ))}
+      </div>
     </div>
   );
 }
