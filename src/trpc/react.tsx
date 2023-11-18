@@ -7,6 +7,7 @@ import { useState } from "react";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { auth } from "@clerk/nextjs";
 
 export const api = createTRPCReact<AppRouter>();
 
@@ -27,10 +28,11 @@ export function TRPCReactProvider(props: {
         }),
         unstable_httpBatchStreamLink({
           url: getUrl(),
-          headers() {
+          async headers() {
             return {
               cookie: props.cookies,
               "x-trpc-source": "react",
+              Authorization: `Bearer ${await auth().getToken()}`,
             };
           },
         }),

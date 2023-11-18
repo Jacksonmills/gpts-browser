@@ -22,8 +22,8 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`font-sans ${GeistMono.className}`}>
+      <html lang="en" className={GeistMono.className} suppressHydrationWarning>
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -31,16 +31,18 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <TRPCReactProvider cookies={cookies().toString()}>
-              <header className="w-full flex items-center p-6">
-                <ThemeToggle />
+              <header className="w-full flex items-center p-6 gap-4">
                 <UserButton />
-                <AddGPTPopover />
+                <span className="ml-auto">
+                  <AddGPTPopover />
+                </span>
               </header>
               <main className="min-h-screen">
                 {children}
               </main>
-              <footer className="flex p-6">
-                GPT Browser is a project by{" "}JEM.{" "}
+              <footer className="flex items-center p-6 gap-4">
+                <span className="mr-auto">A project by{' '}<a className="text-[#ff0051] dark:text-[#a6ff00] hover:underline" href="https://github.com/Jacksonmills">JEM</a>.</span>
+                <ThemeToggle />
               </footer>
             </TRPCReactProvider>
           </ThemeProvider>

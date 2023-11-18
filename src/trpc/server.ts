@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 
 import { type AppRouter } from "@/server/api/root";
 import { getUrl, transformer } from "./shared";
+import { auth } from "@clerk/nextjs";
 
 export const api = createTRPCProxyClient<AppRouter>({
   transformer,
@@ -18,10 +19,11 @@ export const api = createTRPCProxyClient<AppRouter>({
     }),
     unstable_httpBatchStreamLink({
       url: getUrl(),
-      headers() {
+      async headers() {
         return {
           cookie: cookies().toString(),
           "x-trpc-source": "rsc",
+          Authorization: `Bearer ${await auth().getToken()}`,
         };
       },
     }),
